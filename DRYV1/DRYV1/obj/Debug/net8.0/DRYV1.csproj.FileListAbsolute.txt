@@ -276,3 +276,4 @@ C:\Users\mikke\Desktop\Visual Studio\DRY\DRYV1\DRYV1\obj\Debug\net8.0\refint\DRY
 C:\Users\mikke\Desktop\Visual Studio\DRY\DRYV1\DRYV1\obj\Debug\net8.0\DRYV1.pdb
 C:\Users\mikke\Desktop\Visual Studio\DRY\DRYV1\DRYV1\obj\Debug\net8.0\DRYV1.genruntimeconfig.cache
 C:\Users\mikke\Desktop\Visual Studio\DRY\DRYV1\DRYV1\obj\Debug\net8.0\ref\DRYV1.dll
+C:\Users\mikke\Desktop\Visual Studio\DRY\DRYV1\DRYV1\bin\Debug\net8.0\appsettings.json
