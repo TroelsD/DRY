@@ -12,11 +12,11 @@ namespace DRYV1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GuitarController : ControllerBase
+    public class GuitarGearController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public GuitarController(ApplicationDbContext context)
+        public GuitarGearController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -40,22 +40,22 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] Guitar guitar, [FromForm] List<IFormFile> imageFiles)
+        public async Task<IActionResult> Create([FromForm] GuitarGear guitarGear, [FromForm] List<IFormFile> imageFiles)
         {
-            var userExists = await _context.Users.AnyAsync(u => u.Id == guitar.UserId);
+            var userExists = await _context.Users.AnyAsync(u => u.Id == guitarGear.UserId);
             if (!userExists)
             {
                 return BadRequest("Invalid UserId");
             }
 
-            guitar.ListingDate = DateTime.UtcNow;
+            guitarGear.ListingDate = DateTime.UtcNow;
 
             if (imageFiles != null && imageFiles.Count > 0)
             {
                 try
                 {
                     var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
+                    guitarGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -63,9 +63,9 @@ namespace DRYV1.Controllers
                 }
             }
 
-            _context.Guitars.Add(guitar);
+            _context.Guitars.Add(guitarGear);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = guitar.Id }, guitar);
+            return CreatedAtAction(nameof(GetById), new { id = guitarGear.Id }, guitarGear);
         }
 
         

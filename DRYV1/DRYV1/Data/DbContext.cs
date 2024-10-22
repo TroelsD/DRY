@@ -7,9 +7,9 @@ namespace DRYV1.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Instrument> Instruments { get; set; }
-        public DbSet<Guitar> Guitars { get; set; }
+        public DbSet<GuitarGear> Guitars { get; set; }
         
-        public DbSet<Drums> Drums { get; set; }
+        public DbSet<DrumsGear> Drums { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,8 +21,8 @@ namespace DRYV1.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Instrument>().ToTable("Instruments");
-            modelBuilder.Entity<Guitar>().ToTable("Guitars");
-            modelBuilder.Entity<Drums>().ToTable("Drums");
+            modelBuilder.Entity<GuitarGear>().ToTable("Guitars");
+            modelBuilder.Entity<DrumsGear>().ToTable("Drums");
         }
     }
 }

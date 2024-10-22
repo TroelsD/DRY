@@ -9,11 +9,11 @@ namespace DRYV1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DrumsController : ControllerBase
+    public class DrumsGearController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public DrumsController(ApplicationDbContext context)
+        public DrumsGearController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -37,28 +37,28 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Drums drum)
+        public async Task<IActionResult> Create(DrumsGear drumGear)
         {
-            var userExists = await _context.Users.AnyAsync(u => u.Id == drum.UserId);
+            var userExists = await _context.Users.AnyAsync(u => u.Id == drumGear.UserId);
             if (!userExists)
             {
                 return BadRequest("Invalid UserId");
             }
 
-            _context.Drums.Add(drum);
+            _context.Drums.Add(drumGear);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = drum.Id }, drum);
+            return CreatedAtAction(nameof(GetById), new { id = drumGear.Id }, drumGear);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Drums drum)
+        public async Task<IActionResult> Update(int id, DrumsGear drumGear)
         {
-            if (id != drum.Id)
+            if (id != drumGear.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(drum).State = EntityState.Modified;
+            _context.Entry(drumGear).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
         }
