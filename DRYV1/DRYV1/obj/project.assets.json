@@ -2962,25 +2962,27 @@
     ]
   },
   "packageFolders": {
-    "/Users/mikkelkonyher/.nuget/packages/": {}
+    "C:\\Users\\mikke\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
+      "projectUniqueName": "C:\\Users\\mikke\\Desktop\\Visual Studio\\DRY\\DRYV1\\DRYV1\\DRYV1.csproj",
       "projectName": "DRYV1",
-      "projectPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
-      "packagesPath": "/Users/mikkelkonyher/.nuget/packages/",
-      "outputPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/obj/",
+      "projectPath": "C:\\Users\\mikke\\Desktop\\Visual Studio\\DRY\\DRYV1\\DRYV1\\DRYV1.csproj",
+      "packagesPath": "C:\\Users\\mikke\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mikke\\Desktop\\Visual Studio\\DRY\\DRYV1\\DRYV1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/mikkelkonyher/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\mikke\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2993,11 +2995,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3058,7 +3055,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
