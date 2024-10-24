@@ -9,6 +9,7 @@ import ResponsiveAppBar from './Pages/FooterHeader/Navbar';
 import './index.css';
 import Box from '@mui/material/Box';
 import Home from './Pages/Home/';
+import OAuthSignInPage from './Pages/Login'; // Import the OAuthSignInPage component
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/GuitBass" element={<GetGuitBassGear />} />
                     <Route path="/SellDrumsGear" element={<CreateDrumsGear />} />
                     <Route path="/Trommer" element={<GetDrumsGear />} />
+                    <Route path="/login" element={<OAuthSignInPage />} /> {/* Add the new route */}
                     <Route path="/" element={<Home />} />
                 </Routes>
             </Box>

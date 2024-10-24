@@ -154,3 +154,6 @@
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/DRYV1.staticwebassets.runtime.json
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/System.Net.Http.Formatting.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll

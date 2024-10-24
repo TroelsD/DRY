@@ -10,6 +10,9 @@ namespace DRYV1.Models
         public string Email { get; set; } 
         public string Password { get; set; }
         
+        public string OAuthId { get; set; } // ID provided by OAuth provider
+        public string ProviderId { get; set; } // Google, GitHub, etc.
+        
         public List<MusicGear> MusicGear { get; set; } = new List<MusicGear>();
     }
 
