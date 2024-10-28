@@ -179,7 +179,7 @@ function ResponsiveAppBar() {
                             <Typography
                                 component="a"
                                 onClick={handleLogout}
-                                sx={{ my: 2, color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+                                sx={{ my: 2, color: 'Red', cursor: 'pointer', textDecoration: 'none' }}
                             >
                                 LOGOUT
                             </Typography>
@@ -187,7 +187,7 @@ function ResponsiveAppBar() {
                             <Typography
                                 component={Link}
                                 to="/login"
-                                sx={{ my: 2, color: 'white', textDecoration: 'none' }}
+                                sx={{ my: 2, color: 'cyan', textDecoration: 'none' }}
                             >
                                 LOGIN
                             </Typography>
