@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using DRYV1.Models;
+using Microsoft.AspNetCore.Identity;
 
 public class JwtService
 {
@@ -15,26 +16,27 @@ public class JwtService
         _configuration = configuration;
     }
 
-    public string GenerateToken(User user)
-    {
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]));
-        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        var tokenOptions = new JwtSecurityToken(
-            issuer: jwtSettings["Issuer"],
-            audience: jwtSettings["Audience"],
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryMinutes"])),
-            signingCredentials: signinCredentials
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-    }
+   public string GenerateToken(IdentityUser user)
+   {
+       var jwtSettings = _configuration.GetSection("JwtSettings");
+       var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]));
+       var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+   
+       var claims = new[]
+       {
+           new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+           new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+           new Claim("userId", user.Id) // Add userId claim
+       };
+   
+       var tokenOptions = new JwtSecurityToken(
+           issuer: jwtSettings["Issuer"],
+           audience: jwtSettings["Audience"],
+           claims: claims,
+           expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryMinutes"])),
+           signingCredentials: signinCredentials
+       );
+   
+       return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+   }
 }

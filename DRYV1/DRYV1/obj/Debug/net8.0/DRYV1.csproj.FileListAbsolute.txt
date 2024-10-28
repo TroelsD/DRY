@@ -154,3 +154,11 @@
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/DRYV1.staticwebassets.runtime.json
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/MailKit.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/MimeKit.dll

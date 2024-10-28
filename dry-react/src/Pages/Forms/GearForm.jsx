@@ -67,32 +67,30 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     throw new Error('No token found');
                 }
 
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const email = payload.sub;
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+
+                const payload = JSON.parse(jsonPayload);
+                const email = payload.sub; // Extract email from token
+
                 if (!email) {
                     throw new Error('Email not found in token');
                 }
 
-                const userResponse = await fetch(`https://localhost:7064/api/User`, {
-                    headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!userResponse.ok) {
-                    throw new Error('Failed to fetch users');
+                const response = await fetch(`https://localhost:7064/api/User/email/${email}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user ID');
                 }
 
-                const users = await userResponse.json();
-                const user = users.find(user => user.email === email);
-                if (!user) {
-                    throw new Error('User not found');
-                }
+                const data = await response.json();
+                const userId = data.id;
 
                 setGear((prevGear) => ({
                     ...prevGear,
-                    userId: user.id,
+                    userId: userId,
                 }));
             } catch (error) {
                 console.error('Error decoding token or fetching user ID:', error);

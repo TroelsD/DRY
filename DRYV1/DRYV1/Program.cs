@@ -3,10 +3,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddTransient<EmailService>();
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -23,11 +25,28 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure Identity
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// Remove password policy
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 1;
+    options.Password.RequiredUniqueChars = 1;
+});
+
+// Add EmailService
+builder.Services.AddTransient<EmailService>();
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

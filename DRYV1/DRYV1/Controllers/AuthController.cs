@@ -1,50 +1,68 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DRYV1.Data;
 using DRYV1.Models;
 using System.Threading.Tasks;
 
-[Route("api/[controller]")]
-[ApiController]
-public class AuthController : ControllerBase
+namespace DRYV1.Controllers
 {
-    private readonly ApplicationDbContext _context;
-    private readonly JwtService _jwtService;
-
-    public AuthController(ApplicationDbContext context, JwtService jwtService)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
     {
-        _context = context;
-        _jwtService = jwtService;
-    }
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly JwtService _jwtService;
+        private readonly EmailService _emailService;
 
-    [HttpPost("signup")]
-    public async Task<IActionResult> Signup(UserCreateDTO userCreateDTO)
-    {
-        var user = new User
+        public AuthController(UserManager<IdentityUser> userManager, JwtService jwtService, EmailService emailService)
         {
-            Name = userCreateDTO.Name,
-            Email = userCreateDTO.Email,
-            Password = BCrypt.Net.BCrypt.HashPassword(userCreateDTO.Password)
-        };
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { Message = "Bruger oprettet med succes" });
-    }
-
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDTO loginDTO)
-    {
-        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDTO.Email);
-
-        if (user == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
-        {
-            return Unauthorized(new { Message = "Forkert email eller adgangskode" });
+            _userManager = userManager;
+            _jwtService = jwtService;
+            _emailService = emailService;
         }
 
-        var token = _jwtService.GenerateToken(user);
+        [HttpPost("signup")]
+        public async Task<IActionResult> Signup([FromBody] UserCreateDTO model)
+        {
+            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-        return Ok(new { Token = token });
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(nameof(VerifyEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+            await _emailService.SendEmailAsync(user.Email, "Verify your email", $"Please verify your email by clicking <a href=\"{confirmationLink}\">here</a>.");
+
+            return Ok(new { Message = "Signup successful! Please check your email to verify your account." });
+        }
+
+        [HttpGet("verify-email")]
+        public async Task<IActionResult> VerifyEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return BadRequest("Invalid email.");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+                return BadRequest("Email verification failed.");
+
+            return Ok("Email verified successfully.");
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            var user = await _userManager.FindByEmailAsync(loginDTO.Email);
+
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
+            {
+                return Unauthorized(new { Message = "Invalid email or password" });
+            }
+
+            var token = _jwtService.GenerateToken(user);
+
+            return Ok(new { Token = token });
+        }
     }
 }
