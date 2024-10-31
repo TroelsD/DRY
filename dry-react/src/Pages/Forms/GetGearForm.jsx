@@ -5,7 +5,7 @@ import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
 
-function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
+function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey, PostCommentComponent }) {
     const [gear, setGear] = useState(gearData);
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
@@ -179,6 +179,16 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
     const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
 
+    const handleNewComment = (musicGearId, newComment) => {
+        setGear((prevGear) =>
+            prevGear.map((item) =>
+                item.id === musicGearId
+                    ? { ...item, comments: [...item.comments, newComment] }
+                    : item
+            )
+        );
+    };
+
     return (
         <div>
             <div className="sell-button-container">
@@ -310,6 +320,12 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                         ) : (
                                             <p>Ingen kommentarer.</p>
                                         )}
+                                        <PostCommentComponent
+                                            musicGearId={item.id}
+                                            userId={item.userId}
+                                            userName={users[item.userId]?.name || 'Ukendt'}
+                                            onNewComment={handleNewComment} // Pass handleNewComment
+                                        />
                                     </>
                                 )}
                             </div>
@@ -350,6 +366,7 @@ GetGearForm.propTypes = {
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
     gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
+    PostCommentComponent: PropTypes.elementType.isRequired, // Add prop type for PostCommentComponent
 };
 
 export default GetGearForm;

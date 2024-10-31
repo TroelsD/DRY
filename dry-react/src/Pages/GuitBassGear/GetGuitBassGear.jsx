@@ -2,6 +2,7 @@ import React from 'react';
 import GetGearForm from '../Forms/GetGearForm.jsx';
 import './GetGuiBassGear.css';
 import config from "../../../config.jsx";
+import PostComment from '../../Components/PostComment.jsx'; // Import PostComment
 
 function GetGuitBassGear() {
     const categories = [
@@ -16,6 +17,7 @@ function GetGuitBassGear() {
             apiEndpoint={`${config.apiBaseUrl}/api/GuitBassGear`}
             categories={categories}
             gearTypeKey="guitBassType"
+            PostCommentComponent={PostComment} // Pass PostComment as a prop
         />
     );
 }
