@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import config from "../../../config.jsx";
-
 import './GearForm.css';
 
+// Constants
 const ItemType = {
     IMAGE: 'image',
 };
 
+// DraggableImage Component
 function DraggableImage({ src, index, moveImage }) {
     const [, ref] = useDrag({
         type: ItemType.IMAGE,
@@ -41,7 +42,9 @@ DraggableImage.propTypes = {
     moveImage: PropTypes.func.isRequired,
 };
 
+// GearForm Component
 function GearForm({ gearType, categories, apiEndpoint }) {
+    // State variables
     const [gear, setGear] = useState({
         brand: '',
         model: '',
@@ -60,19 +63,16 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Fetch user ID on component mount
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error('No token found');
-                }
+                if (!token) throw new Error('No token found');
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const email = payload.sub;
-                if (!email) {
-                    throw new Error('Email not found in token');
-                }
+                if (!email) throw new Error('Email not found in token');
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
                     headers: {
@@ -81,15 +81,11 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     }
                 });
 
-                if (!userResponse.ok) {
-                    throw new Error('Failed to fetch users');
-                }
+                if (!userResponse.ok) throw new Error('Failed to fetch users');
 
                 const users = await userResponse.json();
                 const user = users.find(user => user.email === email);
-                if (!user) {
-                    throw new Error('User not found');
-                }
+                if (!user) throw new Error('User not found');
 
                 setGear((prevGear) => ({
                     ...prevGear,
@@ -103,6 +99,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         fetchUserId();
     }, []);
 
+    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setGear((prevGear) => ({
@@ -111,6 +108,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }));
     };
 
+    // Handle file input changes
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
@@ -135,6 +133,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setErrorMessage('');
     };
 
+    // Handle image removal
     const handleRemoveImage = (index) => {
         const newImageFiles = [...imageFiles];
         const newImagePreviews = [...imagePreviews];
@@ -146,6 +145,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
+    // Move image within the list
     const moveImage = (fromIndex, toIndex) => {
         if (toIndex === -1) {
             handleRemoveImage(fromIndex);
@@ -165,6 +165,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');

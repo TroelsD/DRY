@@ -65,7 +65,11 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                             return { ...item, comments: [] };
                         }
                         const commentsData = await commentsResponse.json();
-                        return { ...item, comments: commentsData };
+                        const commentsWithUser = await Promise.all(commentsData.map(async (comment) => {
+                            const user = userMap[comment.userId] || { name: 'Ukendt' };
+                            return { ...comment, userName: user.name };
+                        }));
+                        return { ...item, comments: commentsWithUser };
                     } catch (error) {
                         console.error(error);
                         return { ...item, comments: [] };
@@ -313,7 +317,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                         {item.comments && item.comments.length > 0 ? (
                                             item.comments.map((comment) => (
                                                 <div key={comment.id} className="comment">
-                                                    <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                                    <p><strong>{comment.userName || 'Ukendt'}:</strong> {comment.text}</p>
                                                     <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
                                                 </div>
                                             ))
@@ -322,8 +326,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                         )}
                                         <PostCommentComponent
                                             musicGearId={item.id}
-                                            userId={item.userId}
-                                            userName={users[item.userId]?.name || 'Ukendt'}
+
                                             onNewComment={handleNewComment} // Pass handleNewComment
                                         />
                                     </>
@@ -366,7 +369,7 @@ GetGearForm.propTypes = {
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
     gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
-    PostCommentComponent: PropTypes.elementType.isRequired, // Add prop type for PostCommentComponent
+    PostCommentComponent: PropTypes.elementType.isRequired,
 };
 
 export default GetGearForm;
