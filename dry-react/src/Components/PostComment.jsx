@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import config from "../../config.jsx";
 import './PostComment.css';
 
-const PostComment = ({ musicGearId, userId, userName, onNewComment }) => {
+const PostComment = ({ musicGearId, userId, onNewComment }) => {
     const [text, setText] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -14,7 +14,6 @@ const PostComment = ({ musicGearId, userId, userName, onNewComment }) => {
         const payload = {
             musicGearId,
             userId,
-            userName,
             text
         };
         console.log('Request Payload:', payload);
@@ -52,8 +51,7 @@ const PostComment = ({ musicGearId, userId, userName, onNewComment }) => {
 PostComment.propTypes = {
     musicGearId: PropTypes.number.isRequired,
     userId: PropTypes.number.isRequired,
-    userName: PropTypes.string.isRequired,
-    onNewComment: PropTypes.func.isRequired, // Add prop type for the callback function
+    onNewComment: PropTypes.func.isRequired, // Add prop type for onNewComment
 };
 
 export default PostComment;
