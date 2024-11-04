@@ -30,31 +30,36 @@ function SearchFilters({ filters, categories, brands, models, locations, onFilte
                 ))}
             </select>
             <select name="location" value={filters.location} onChange={onFilterChange}>
-                <option value="">Lokation</option>
+                <option value="">Location</option>
                 {locations.map((location) => (
                     <option key={location} value={location}>
                         {location}
                     </option>
                 ))}
             </select>
-            <select name="price" value={filters.price} onChange={onFilterChange}>
-                <option value="">Pris</option>
-                <option value="0-500">0-500 DKK</option>
-                <option value="500-1000">500-1000 DKK</option>
-                <option value="1000-5000">1000-5000 DKK</option>
-                <option value="5000-10000">5000-10.000 DKK</option>
-                <option value="10000-15000">10.000-15.000 DKK</option>
-                <option value="15000-20000">15.000-20.000 DKK</option>
-                <option value="20000-30000">20.000-30.000 DKK</option>
-                <option value="30000-40000">30.000-40.000 DKK</option>
-                <option value="40000-50000">40.000-50.000 DKK</option>
-                <option value="50000+">50.000+ DKK</option>
-            </select>
-            <button className="clear-filters-button" onClick={() => {
-                onClearFilters();
-                window.location.reload();
-            }}>
-                Vis Alt
+            <input
+                type="number"
+                name="minPrice"
+                value={filters.minPrice}
+                onChange={onFilterChange}
+                placeholder="Min Price"
+            />
+            <input
+                type="number"
+                name="maxPrice"
+                value={filters.maxPrice}
+                onChange={onFilterChange}
+                placeholder="Max Price"
+            />
+            <input
+                type="number"
+                name="year"
+                value={filters.year}
+                onChange={onFilterChange}
+                placeholder="Year"
+            />
+            <button className="clear-filters-button" onClick={onClearFilters}>
+                Clear Filters
             </button>
         </div>
     );

@@ -6,7 +6,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
 import PostComment from "../../Components/PostComments.jsx";
 import Pagination from '../../Components/Pagination.jsx';
-import SearchFilters from '../../Components/SearchFilters.jsx'; // Import the new SearchFilters component
+import SearchFilters from '../../Components/SearchFilters.jsx';
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
@@ -20,7 +20,9 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         brand: '',
         model: '',
         location: '',
-        price: ''
+        minPrice: '',
+        maxPrice: '',
+        year: ''
     });
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
@@ -86,8 +88,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
     const fetchSearchResults = async () => {
         try {
-            const url = new URL(`${apiEndpoint}/search`);
-            url.searchParams.append('query', searchQuery);
+            const url = new URL(`${apiEndpoint}/filter`);
 
             Object.keys(filters).forEach(key => {
                 if (filters[key]) {
@@ -95,34 +96,17 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 }
             });
 
+            if (searchQuery) {
+                url.searchParams.append('search', searchQuery);
+            }
+
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            const filteredData = data.filter((item) => {
-                const matchesFilters = (
-                    (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
-                    (filters.brand === '' || item?.brand?.includes(filters.brand)) &&
-                    (filters.model === '' || item?.model?.includes(filters.model)) &&
-                    (filters.location === '' || item?.location?.includes(filters.location)) &&
-                    (filters.price === '' || (
-                        filters.price === '0-500' && item.price <= 500 ||
-                        filters.price === '500-1000' && item.price > 500 && item.price <= 1000 ||
-                        filters.price === '1000-5000' && item.price > 1000 && item.price <= 5000 ||
-                filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
-                filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
-                filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
-                filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
-                filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
-                filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
-                filters.price === '50000+' && item.price > 50000
-            ))
-            );
-                return matchesFilters;
-            });
-            setGear(filteredData);
-            setNoSearchResults(filteredData.length === 0);
+            setGear(data);
+            setNoSearchResults(data.length === 0);
         } catch (error) {
             console.error('Error fetching search results:', error);
             setNoSearchResults(true);
@@ -169,7 +153,9 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             brand: '',
             model: '',
             location: '',
-            price: ''
+            minPrice: '',
+            maxPrice: '',
+            year: ''
         });
         setSearchQuery('');
     };
