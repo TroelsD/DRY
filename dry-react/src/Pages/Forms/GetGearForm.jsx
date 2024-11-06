@@ -110,9 +110,9 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                         filters.price === '0-500' && item.price <= 500 ||
                         filters.price === '500-1000' && item.price > 500 && item.price <= 1000 ||
                         filters.price === '1000-5000' && item.price > 1000 && item.price <= 5000 ||
-                filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
-                filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
-                filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
+                        filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
+                        filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
+                        filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
                 filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
                 filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
                 filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
@@ -153,6 +153,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+        setCurrentPage(1); // Reset to page 1
     };
 
     const handleImageClick = (src) => {

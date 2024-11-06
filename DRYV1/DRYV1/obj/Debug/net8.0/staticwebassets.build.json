@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/cw3Qb3SjrJ4jfQf1uHb54bMQAexJ2e5nGxQl2TB1IQ=",
+  "Hash": "HWLYmskGYwOud80bGDyrbOdH1UeHTK4B6wb8Mc+bOjU=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -585,6 +585,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/2fp4lesw.kfl.png"
+    },
+    {
+      "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/2n3jkkx4.vdz.webp",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/2n3jkkx4.vdz.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/2n3jkkx4.vdz.webp"
     },
     {
       "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/2ncr0jnj.z3k.webp",
@@ -3152,6 +3171,25 @@
       "OriginalItemSpec": "wwwroot/assets/l2pwpyxt.mpr.jpg"
     },
     {
+      "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/lcgnmc4c.old.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/lcgnmc4c.old.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/lcgnmc4c.old.jpg"
+    },
+    {
       "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/lexrov5k.hqd.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -3853,6 +3891,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/oey2ev3i.gto.jpg"
+    },
+    {
+      "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/ohbvter1.2bp.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/ohbvter1.2bp.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/ohbvter1.2bp.jpg"
     },
     {
       "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/ohf1sl0d.afj.png",
@@ -5107,6 +5164,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/v00dhdwn.tw5.jpg"
+    },
+    {
+      "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/vbsxt4v3.gfv.webp",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/vbsxt4v3.gfv.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/vbsxt4v3.gfv.webp"
     },
     {
       "Identity": "/Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/wwwroot/assets/vcdl3x1v.r35.webp",
