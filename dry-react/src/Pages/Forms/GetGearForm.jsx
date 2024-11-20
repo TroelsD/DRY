@@ -23,7 +23,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
     useEffect(() => {
         const fetchGear = async () => {
             try {
-                const response = await fetch(apiEndpoint);
+                const response = await fetch(`${apiEndpoint}?pageNumber=${currentPage}&pageSize=${itemsPerPage}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -64,7 +64,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         };
 
         fetchGear();
-    }, [apiEndpoint]);
+    }, [apiEndpoint, currentPage]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -106,6 +106,8 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         try {
             const url = new URL(`${apiEndpoint}/search`);
             url.searchParams.append('query', searchQuery);
+            url.searchParams.append('pageNumber', currentPage);
+            url.searchParams.append('pageSize', itemsPerPage);
 
             const response = await fetch(url);
             if (!response.ok) {
