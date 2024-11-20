@@ -23,10 +23,27 @@ namespace DRYV1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 5)
         {
-            var guitars = await _context.GuitBassGear.ToListAsync();
-            return Ok(guitars);
+            var guitars = await _context.GuitBassGear
+                .OrderByDescending(g => g.Id) // Sort by ID in descending order
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var totalItems = await _context.GuitBassGear.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var response = new
+            {
+                Data = guitars,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalItems = totalItems
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -88,16 +105,23 @@ namespace DRYV1.Controllers
         }
         
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string query)
+        public async Task<IActionResult> Search(string query, int pageNumber = 1, int pageSize = 5)
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var results = await _context.GuitBassGear
+            var queryable = _context.GuitBassGear
                 .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
                                               g.Model.ToLower().Contains(k) ||
                                               g.Year.ToString().Contains(k) ||
                                               g.Description.ToLower().Contains(k) ||
                                               g.Location.ToLower().Contains(k) ||
-                                              g.GuitBassType.ToLower().Contains(k)))
+                                              g.GuitBassType.ToLower().Contains(k)));
+
+            var totalItems = await queryable.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var results = await queryable
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             if (!results.Any())
@@ -105,7 +129,16 @@ namespace DRYV1.Controllers
                 return NotFound("No matching records found.");
             }
 
-            return Ok(results);
+            var response = new
+            {
+                Data = results,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalItems = totalItems
+            };
+
+            return Ok(response);
         }
         
         [HttpGet("filter")]

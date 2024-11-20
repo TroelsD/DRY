@@ -18,53 +18,54 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedPriceRange, setSelectedPriceRange] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('');
+    const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 5;
 
-    useEffect(() => {
-        const fetchGear = async () => {
-            try {
-                const response = await fetch(apiEndpoint);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
+    const fetchGear = async (pageNumber = 1) => {
+        try {
+            const response = await fetch(`${apiEndpoint}?pageNumber=${pageNumber}&pageSize=${itemsPerPage}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
 
-                const sortedData = data.sort((a, b) => b.id - a.id);
-
-                const commentsPromises = sortedData.map(async (item) => {
-                    try {
-                        const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                        if (!commentsResponse.ok) {
-                            return { ...item, comments: [] };
-                        }
-                        const commentsData = await commentsResponse.json();
-                        return { ...item, comments: commentsData };
-                    } catch (error) {
-                        console.error(error);
+            const commentsPromises = data.data.map(async (item) => {
+                try {
+                    const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
+                    if (!commentsResponse.ok) {
                         return { ...item, comments: [] };
                     }
-                });
-
-                const gearWithComments = await Promise.all(commentsPromises);
-                setGear(gearWithComments);
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-                if (!userResponse.ok) {
-                    throw new Error('Network response was not ok');
+                    const commentsData = await commentsResponse.json();
+                    return { ...item, comments: commentsData };
+                } catch (error) {
+                    console.error(error);
+                    return { ...item, comments: [] };
                 }
-                const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {});
-                setUsers(userMap);
-            } catch (error) {
-                console.error('Error fetching gear or users:', error);
-            }
-        };
+            });
 
-        fetchGear();
-    }, [apiEndpoint]);
+            const gearWithComments = await Promise.all(commentsPromises);
+            setGear(gearWithComments);
+            setTotalPages(data.totalPages);
+            setCurrentPage(data.pageNumber);
+
+            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
+            if (!userResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const userData = await userResponse.json();
+            const userMap = userData.reduce((acc, user) => {
+                acc[user.id] = user;
+                return acc;
+            }, {});
+            setUsers(userMap);
+        } catch (error) {
+            console.error('Error fetching gear or users:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchGear(currentPage);
+    }, [apiEndpoint, currentPage]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -164,32 +165,14 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setSelectedImage(null);
     };
 
-    const filteredGear = gear.filter(item => {
-        const matchesCategory = selectedCategory ? item[gearTypeKey] === selectedCategory : true;
-        const matchesPrice = selectedPriceRange ? (
-            selectedPriceRange === '50000+' ? item.price >= 50000 :
-                item.price >= parseInt(selectedPriceRange.split('-')[0]) && item.price <= parseInt(selectedPriceRange.split('-')[1])
-        ) : true;
-        const matchesLocation = selectedLocation ? item.location === selectedLocation : true;
-        return matchesCategory && matchesPrice && matchesLocation;
-    });
-
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
-
-    const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
-
     const handlePageChange = (direction) => {
-        setCurrentPage((prevPage) => {
-            let newPage = prevPage;
-            if (direction === 'prev' && prevPage > 1) {
-                newPage = prevPage - 1;
-            } else if (direction === 'next' && prevPage < totalPages) {
-                newPage = prevPage + 1;
-            }
-            return newPage;
-        });
+        let newPage = currentPage;
+        if (direction === 'prev' && currentPage > 1) {
+            newPage = currentPage - 1;
+        } else if (direction === 'next' && currentPage < totalPages) {
+            newPage = currentPage + 1;
+        }
+        setCurrentPage(newPage);
     };
 
     const handleCommentPosted = async (gearId) => {
@@ -317,15 +300,15 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
-                {currentItems.map((item) => (
+                {gear.map((item) => (
                     <GearCard
                         key={item.id}
                         item={item}
                         users={users}
                         handleImageClick={handleImageClick}
                         handleCommentPosted={handleCommentPosted}
-                        gearTypeKey={gearTypeKey} // Pass gearTypeKey here
-                        handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                        gearTypeKey={gearTypeKey}
+                        handleFavorite={handleToggleFavorite}
                         userId={userId}
                     />
                 ))}
