@@ -15,9 +15,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
     const [currentPage, setCurrentPage] = useState(1);
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedPriceRange, setSelectedPriceRange] = useState('');
-    const [selectedLocation, setSelectedLocation] = useState('');
+    const [totalItems, setTotalItems] = useState(0);
     const itemsPerPage = 10;
 
     useEffect(() => {
@@ -29,24 +27,28 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                 }
                 const data = await response.json();
 
-                const sortedData = data.sort((a, b) => b.id - a.id);
+                if (Array.isArray(data)) {
+                    const sortedData = data.sort((a, b) => b.id - a.id);
 
-                const commentsPromises = sortedData.map(async (item) => {
-                    try {
-                        const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                        if (!commentsResponse.ok) {
+                    const commentsPromises = sortedData.map(async (item) => {
+                        try {
+                            const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
+                            if (!commentsResponse.ok) {
+                                return { ...item, comments: [] };
+                            }
+                            const commentsData = await commentsResponse.json();
+                            return { ...item, comments: commentsData };
+                        } catch (error) {
+                            console.error(error);
                             return { ...item, comments: [] };
                         }
-                        const commentsData = await commentsResponse.json();
-                        return { ...item, comments: commentsData };
-                    } catch (error) {
-                        console.error(error);
-                        return { ...item, comments: [] };
-                    }
-                });
+                    });
 
-                const gearWithComments = await Promise.all(commentsPromises);
-                setGear(gearWithComments);
+                    const gearWithComments = await Promise.all(commentsPromises);
+                    setGear(gearWithComments);
+                } else {
+                    throw new Error('Data is not an array');
+                }
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
                 if (!userResponse.ok) {
@@ -115,24 +117,28 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             }
             const data = await response.json();
 
-            const commentsPromises = data.map(async (item) => {
-                try {
-                    const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                    if (!commentsResponse.ok) {
+            if (Array.isArray(data)) {
+                const commentsPromises = data.map(async (item) => {
+                    try {
+                        const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
+                        if (!commentsResponse.ok) {
+                            return { ...item, comments: [] };
+                        }
+                        const commentsData = await commentsResponse.json();
+                        return { ...item, comments: commentsData };
+                    } catch (error) {
+                        console.error(error);
                         return { ...item, comments: [] };
                     }
-                    const commentsData = await commentsResponse.json();
-                    return { ...item, comments: commentsData };
-                } catch (error) {
-                    console.error(error);
-                    return { ...item, comments: [] };
-                }
-            });
+                });
 
-            const gearWithComments = await Promise.all(commentsPromises);
-            setGear(gearWithComments);
-            setNoSearchResults(gearWithComments.length === 0);
-            setCurrentPage(1); // Reset pagination to page 1
+                const gearWithComments = await Promise.all(commentsPromises);
+                setGear(gearWithComments);
+                setNoSearchResults(gearWithComments.length === 0);
+                setCurrentPage(1); // Reset pagination to page 1
+            } else {
+                throw new Error('Data is not an array');
+            }
         } catch (error) {
             console.error('Error fetching search results:', error);
             setNoSearchResults(true);
@@ -143,21 +149,6 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setSearchQuery(e.target.value);
     };
 
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
-        setCurrentPage(1); // Reset pagination to page 1
-    };
-
-    const handlePriceRangeChange = (e) => {
-        setSelectedPriceRange(e.target.value);
-        setCurrentPage(1); // Reset pagination to page 1
-    };
-
-    const handleLocationChange = (e) => {
-        setSelectedLocation(e.target.value);
-        setCurrentPage(1); // Reset pagination to page 1
-    };
-
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -166,21 +157,11 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setSelectedImage(null);
     };
 
-    const filteredGear = gear.filter(item => {
-        const matchesCategory = selectedCategory ? item[gearTypeKey] === selectedCategory : true;
-        const matchesPrice = selectedPriceRange ? (
-            selectedPriceRange === '50000+' ? item.price >= 50000 :
-                item.price >= parseInt(selectedPriceRange.split('-')[0]) && item.price <= parseInt(selectedPriceRange.split('-')[1])
-        ) : true;
-        const matchesLocation = selectedLocation ? item.location === selectedLocation : true;
-        return matchesCategory && matchesPrice && matchesLocation;
-    });
-
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = gear ? gear.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-    const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
@@ -278,45 +259,6 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                 />
                 <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
             </div>
-            <div className="selector-container">
-                <div className="selector">
-                    <select value={selectedCategory} onChange={handleCategoryChange}>
-                        <option value="">Alle kategorier</option>
-                        {categories.map((category) => (
-                            <option key={category} value={category}>
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="selector">
-                    <select value={selectedPriceRange} onChange={handlePriceRangeChange}>
-                        <option value="">Alle priser</option>
-                        <option value="0-1000">0-1000 kr.</option>
-                        <option value="1000-5000">1000-5000 kr.</option>
-                        <option value="5000-10000">5000-10.000 kr.</option>
-                        <option value="10000-20000">10.000-20.000 kr.</option>
-                        <option value="20000-50000">20.000-50.000 kr.</option>
-                        <option value="50000+">50.000+ kr.</option>
-                    </select>
-                </div>
-                <div className="selector">
-                    <select value={selectedLocation} onChange={handleLocationChange}>
-                        <option value="">Vælg placering</option>
-                        <option value="København og omegn">København og omegn</option>
-                        <option value="Aarhus">Aarhus</option>
-                        <option value="Odense">Odense</option>
-                        <option value="Aalborg">Aalborg</option>
-                        <option value="Sjælland">Sjælland</option>
-                        <option value="Jylland">Jylland</option>
-                        <option value="Fyn">Fyn</option>
-                        <option value="Bornholm">Bornholm</option>
-                        <option value="Færøerne">Færøerne</option>
-                        <option value="Grønland">Grønland</option>
-                        <option value="Andet">Andet</option>
-                    </select>
-                </div>
-            </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
                 {currentItems.map((item) => (
@@ -326,8 +268,8 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                         users={users}
                         handleImageClick={handleImageClick}
                         handleCommentPosted={handleCommentPosted}
-                        gearTypeKey={gearTypeKey} // Pass gearTypeKey here
-                        handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                        gearTypeKey={gearTypeKey}
+                        handleFavorite={handleToggleFavorite}
                         userId={userId}
                     />
                 ))}
