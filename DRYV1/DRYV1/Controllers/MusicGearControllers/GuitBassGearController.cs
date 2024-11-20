@@ -21,11 +21,13 @@ namespace DRYV1.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
         {
-            var guitars = await _context.GuitBassGear.ToListAsync();
+            var guitars = await _context.GuitBassGear
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
             return Ok(guitars);
         }
 
@@ -88,7 +90,7 @@ namespace DRYV1.Controllers
         }
         
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string query)
+        public async Task<IActionResult> Search(string query, int pageNumber = 1, int pageSize = 10)
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var results = await _context.GuitBassGear
@@ -98,6 +100,8 @@ namespace DRYV1.Controllers
                                               g.Description.ToLower().Contains(k) ||
                                               g.Location.ToLower().Contains(k) ||
                                               g.GuitBassType.ToLower().Contains(k)))
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             if (!results.Any())

@@ -19,11 +19,13 @@ namespace DRYV1.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
         {
-            var drums = await _context.DrumsGear.ToListAsync();
+            var drums = await _context.DrumsGear
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
             return Ok(drums);
         }
 
@@ -95,8 +97,9 @@ namespace DRYV1.Controllers
             return NoContent();
         }
         
+       
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string query)
+        public async Task<IActionResult> Search(string query, int pageNumber = 1, int pageSize = 10)
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var results = await _context.DrumsGear
@@ -106,6 +109,8 @@ namespace DRYV1.Controllers
                                               g.Description.ToLower().Contains(k) ||
                                               g.Location.ToLower().Contains(k) ||
                                               g.DrumsGearType.ToLower().Contains(k)))
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             if (!results.Any())
