@@ -3069,20 +3069,20 @@
     ]
   },
   "packageFolders": {
-    "/Users/mikkelkonyher/.nuget/packages/": {}
+    "/Users/troelsdankert/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
+      "projectUniqueName": "/Users/troelsdankert/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
       "projectName": "DRYV1",
-      "projectPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
-      "packagesPath": "/Users/mikkelkonyher/.nuget/packages/",
-      "outputPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/obj/",
+      "projectPath": "/Users/troelsdankert/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
+      "packagesPath": "/Users/troelsdankert/.nuget/packages/",
+      "outputPath": "/Users/troelsdankert/Documents/GitHub/DRY/DRYV1/DRYV1/obj/",
       "projectStyle": "PackageReference",
       "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
-        "/Users/mikkelkonyher/.nuget/NuGet/NuGet.Config"
+        "/Users/troelsdankert/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
