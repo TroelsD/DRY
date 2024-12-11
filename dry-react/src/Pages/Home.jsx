@@ -24,8 +24,8 @@ function Home() {
 
     return (
         <div className="home-container">
-            <h1>Hej Troels</h1>
-            <div className="homegear-list">
+            <h1>Her skal være et hero billede med en div i</h1>
+            <div className="carousel-container">
                 {musicGear.map((item) => (
                     <HomeGearCard key={item.id} item={item} />
                 ))}
