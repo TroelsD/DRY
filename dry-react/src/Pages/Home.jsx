@@ -24,10 +24,20 @@ function Home() {
 
     return (
         <div className="home-container">
-            <h1>Her skal være et hero billede med en div i</h1>
+            <div className="hero-box">
+                <h1>Gør dit gear til guld</h1>
+                <button className="hero-button">Upload en artikel nu</button>
+            </div>
+            <h2>Populære artikler</h2>
             <div className="carousel-container">
                 {musicGear.map((item) => (
-                    <HomeGearCard key={item.id} item={item} />
+                    <HomeGearCard key={item.id} item={item}/>
+                ))}
+            </div>
+            <h2>Senest tilføjede artikler</h2>
+            <div className="carousel-container">
+                {musicGear.map((item) => (
+                    <HomeGearCard key={item.id} item={item}/>
                 ))}
             </div>
         </div>
