@@ -45,9 +45,53 @@
     overflow-x: auto;
     white-space: nowrap;
     padding: 20px;
-    border-radius: 10px; /* Rounded corners for the carousel container */
+    border-radius: 10px;
 }
 
 .carousel-container::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for a cleaner look */
+    display: none;
+}
+
+.home-container h2 {
+    font-size: 1em;
+    margin-top: 2px;
+    margin-bottom: 0;
+    margin-left: 28px;
+    text-align: left;
+}
+
+.hero-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    padding: 12px;
+    margin: 20px;
+    background-color: #ffffff;
+    width: 225px;
+    height: 275px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    box-sizing: border-box;
+    color: #000000;
+    font-family: Roboto, sans-serif;
+}
+
+.hero-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: black;
+    background-color: #4cacaf;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: Roboto, sans-serif;
+    font-weight: 900;
+}
+
+.hero-button:hover {
+    background-color: #3a8a8a;
 }
