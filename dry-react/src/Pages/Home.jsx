@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Home.css';
 import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
+import heroImage from '../assets/hero.png'; // Import the hero image
 
 function Home() {
     const [musicGear, setMusicGear] = useState([]);
@@ -24,9 +25,11 @@ function Home() {
 
     return (
         <div className="home-container">
-            <div className="hero-box">
-                <h1>Gør dit gear til guld</h1>
-                <button className="hero-button">Upload en artikel nu</button>
+            <div className="hero-container" style={{ backgroundImage: `url(${heroImage})` }}>
+                <div className="hero-box">
+                    <h1>Gør dit gear til guld</h1>
+                    <button className="hero-button">Upload en artikel nu</button>
+                </div>
             </div>
             <h2>Populære artikler</h2>
             <div className="carousel-container">
