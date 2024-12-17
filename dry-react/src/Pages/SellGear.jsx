@@ -5,14 +5,14 @@ import './SellGear.css';
 function SellGear() {
     return (
         <div className="sell-gear-container">
-            <h2>Vælg en kategori for at sælge dit gear</h2>
-            <ul>
-                <li><Link to="/SellGuiBassGear">Sælg Guitar/Bass Gear</Link></li>
-                <li><Link to="/SellDrumsGear">Sælg Trommer Gear</Link></li>
-                <li><Link to="/SellStudioGear">Sælg Studio Gear</Link></li>
-                <li><Link to="/SellKeysGear">Sælg Keys Gear</Link></li>
-                <li><Link to="/SellStringsGear">Sælg Strygere Gear</Link></li>
-                <li><Link to="/SellHornsGear">Sælg Blæsere Gear</Link></li>
+            <h2>Vælg en kategori</h2>
+            <ul className="category-list">
+                <li><Link to="/SellGuiBassGear" className="category-link">Guitar/Bas</Link></li>
+                <li><Link to="/SellDrumsGear" className="category-link">Trommer</Link></li>
+                <li><Link to="/SellStudioGear" className="category-link">Studio</Link></li>
+                <li><Link to="/SellKeysGear" className="category-link">Keys</Link></li>
+                <li><Link to="/SellStringsGear" className="category-link">Strygere</Link></li>
+                <li><Link to="/SellHornsGear" className="category-link">Blæsere</Link></li>
             </ul>
         </div>
     );

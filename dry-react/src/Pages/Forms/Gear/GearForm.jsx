@@ -30,7 +30,7 @@ function DraggableImage({ src, index, moveImage }) {
         <div ref={(node) => ref(drop(node))} className="image-preview-container">
             <img src={src} alt={`Forhåndsvisning ${index}`} className="image-preview" />
             <button type="button" onClick={() => moveImage(index, -1)}>Fjern</button>
-            {index === 0 && <p>Hovedbillede</p>}
+            {index === 0 && <p>Primært billede</p>}
         </div>
     );
 }
@@ -120,11 +120,11 @@ function GearForm({ gearType, categories, apiEndpoint }) {
 
         for (const file of files) {
             if (!allowedTypes.includes(file.type)) {
-                setErrorMessage('Kun billeder af typen jpg, jpeg, png eller webp er tilladt.');
+                setErrorMessage('Kun billeder af typen jpg, jpeg, png eller webp er tilladt');
                 return;
             }
             if (newImageFiles.length >= 8) {
-                setErrorMessage('Du kan ikke uploade mere end 8 billeder.');
+                setErrorMessage('Du kan ikke uploade mere end 8 billeder');
                 return;
             }
             newImageFiles.push(file);
@@ -228,7 +228,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                 throw new Error('Network response was not ok');
             }
 
-            setSuccessMessage('Produktet er blevet oprettet!');
+            setSuccessMessage('Din salgsannonce er oprettet!');
             setGear({
                 brand: '',
                 model: '',
@@ -272,12 +272,12 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         name="description"
                         value={gear.description}
                         onChange={handleChange}
-                        placeholder="Beskrivelse max 2000 tegn"
+                        placeholder="Beskrivelse maks. 2000 tegn"
                         required
                         maxLength={2000} // Assuming an average word length of 5 characters
                     />
                     <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris"
-                           required/>
+                           required min="0" max="1000000"/>
 
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
                         <option value="">Vælg tilstand</option>

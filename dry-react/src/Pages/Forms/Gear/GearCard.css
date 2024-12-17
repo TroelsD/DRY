@@ -1,10 +1,86 @@
+/* GearCard.css */
+
+/* Base styles for GearCard */
 .gear-card {
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .gear-card:hover {
-
-
     transform: scale(1.01); /* Increase size on hover */
+}
+
+/* Media query for screens smaller than 768px (tablets and mobile devices) */
+@media (max-width: 768px) {
+    .gear-card {
+        padding: 10px;
+        margin: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .gear-card h4 {
+        font-size: 1.2em;
+    }
+
+    .gear-card h5 {
+        font-size: 1em;
+    }
+
+    .image-container {
+        position: relative;
+    }
+
+    .gear-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .nav-button {
+        display: none; /* Hide navigation buttons on mobile */
+    }
+
+    .favorite-button {
+        position: static;
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .contact-seller-button {
+        margin-top: 10px;
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Media query for screens smaller than 480px (small mobile devices) */
+@media (max-width: 480px) {
+    .gear-card {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .gear-card h4 {
+        font-size: 1em;
+    }
+
+    .gear-card h5 {
+        font-size: 0.9em;
+    }
+
+    .favorite-button {
+        margin-bottom: 5px;
+        padding: 8px;
+    }
+
+    .contact-seller-button {
+        margin-top: 5px;
+        padding: 8px;
+    }
 }

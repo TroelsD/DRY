@@ -44,6 +44,8 @@
 .forum-card p {
     margin: 8px 0;
     color: #666;
+    word-wrap: break-word; /* Ensure long words break and wrap within the card */
+    overflow-wrap: break-word; /* Ensure long words break and wrap within the card */
 }
 
 .forum-card strong {
@@ -72,11 +74,4 @@
 
 .like-button:focus {
     outline: none;
-}
-
-.forum-card p {
-    margin: 8px 0;
-    color: #666;
-    word-wrap: break-word; /* Ensure long words break and wrap within the card */
-    overflow-wrap: break-word; /* Ensure long words break and wrap within the card */
 }
