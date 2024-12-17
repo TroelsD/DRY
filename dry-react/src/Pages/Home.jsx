@@ -4,9 +4,12 @@ import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
 import heroImage from '../assets/Hero_itt2.png';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 function Home() {
     const [musicGear, setMusicGear] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchAllMusicGear = async () => {
@@ -31,6 +34,7 @@ function Home() {
             } while (allItems.length < totalItems);
 
             setMusicGear(allItems);
+            setLoading(false);
         };
 
         fetchAllMusicGear();
@@ -41,7 +45,7 @@ function Home() {
 
     return (
         <div className="home-container">
-            <div className="hero-container" style={{ backgroundImage: `url(${heroImage})` }}>
+            <div className="hero-container" style={{backgroundImage: `url(${heroImage})`}}>
                 <div className="hero-box">
                     <h1>Gør dit gear til guld</h1>
                     <Link to="/sell-gear" className="hero-button">Upload en artikel nu</Link>
@@ -49,16 +53,29 @@ function Home() {
             </div>
             <h2>Populære artikler</h2>
             <div className="carousel-container">
-                {sortedMusicGear.map((item) => (
-                    <HomeGearCard key={item.id} item={item}/>
-                ))}
+                {loading ? (
+                    Array(5).fill().map((_, index) => (
+                        <Skeleton key={index} height={200} width={300} style={{margin: '10px'}}/>
+                    ))
+                ) : (
+                    sortedMusicGear.map((item) => (
+                        <HomeGearCard key={item.id} item={item}/>
+                    ))
+                )}
             </div>
             <h2>Senest tilføjede artikler</h2>
             <div className="carousel-container">
-                {musicGear.map((item) => (
-                    <HomeGearCard key={item.id} item={item}/>
-                ))}
+                {loading ? (
+                    Array(5).fill().map((_, index) => (
+                        <Skeleton key={index} height={200} width={300} style={{margin: '10px'}}/>
+                    ))
+                ) : (
+                    musicGear.map((item) => (
+                        <HomeGearCard key={item.id} item={item}/>
+                    ))
+                )}
             </div>
+
         </div>
     );
 }

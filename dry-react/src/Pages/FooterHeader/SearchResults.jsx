@@ -6,6 +6,8 @@ import Pagination from '../../Components/Pagination.jsx';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import config from "../../../config.jsx";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './SearchResults.css';
 
 function SearchResults() {
@@ -17,9 +19,11 @@ function SearchResults() {
     const [totalItems, setTotalItems] = useState(0);
     const [errorMessage, setErrorMessage] = useState(location.state?.errorMessage || '');
     const [userId, setUserId] = useState(null);
+    const [loading, setLoading] = useState(true);
     const itemsPerPage = 10;
 
     const fetchGear = async (pageNumber = 1) => {
+        setLoading(true);
         try {
             const searchQuery = location.state?.searchQuery || '';
             const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${searchQuery}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`);
@@ -44,6 +48,8 @@ function SearchResults() {
         } catch (error) {
             console.error('Error fetching gear or users:', error);
             setErrorMessage('Fandt ingen match på søgning.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -168,21 +174,27 @@ function SearchResults() {
                 </Typography>
             ) : (
                 <Box className="search-results-list" sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                    {gear.length > 0 ? (
-                        gear.map((item) => (
-                            <GearCard
-                                key={item.id}
-                                item={item}
-                                users={users}
-                                handleImageClick={handleImageClick}
-                                handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
-                                userId={userId}
-                            />
+                    {loading ? (
+                        Array(10).fill().map((_, index) => (
+                            <Skeleton key={index} height={200} width={300} style={{ margin: '10px' }} />
                         ))
                     ) : (
-                        <Typography className="no-results-message" variant="h6">
-                            No results found.
-                        </Typography>
+                        gear.length > 0 ? (
+                            gear.map((item) => (
+                                <GearCard
+                                    key={item.id}
+                                    item={item}
+                                    users={users}
+                                    handleImageClick={handleImageClick}
+                                    handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                                    userId={userId}
+                                />
+                            ))
+                        ) : (
+                            <Typography className="no-results-message" variant="h6">
+                                No results found.
+                            </Typography>
+                        )
                     )}
                 </Box>
             )}

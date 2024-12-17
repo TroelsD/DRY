@@ -31,16 +31,6 @@
     text-shadow: 1px 1px 2px #131313;
 }
 
-@media (max-width: 600px) {
-    .home-container h1 {
-        font-size: 2em;
-    }
-
-    .home-container p {
-        font-size: 1em;
-    }
-}
-
 .carousel-container {
     display: flex;
     align-items: center;
@@ -75,7 +65,7 @@
     justify-content: center;
     align-items: flex-start;
     padding: 12px;
-    margin: 20px;
+    margin: 28px;
     background-color: rgba(255, 255, 255, 0.8);
     width: 225px;
     height: 275px;
@@ -99,6 +89,9 @@
     transition: background-color 0.3s ease;
     font-family: Roboto, sans-serif;
     font-weight: 900;
+    display: block; /* Ensure the button is a block element */
+    margin-left: auto; /* Center the button horizontally */
+    margin-right: auto; /* Center the button horizontally */
 }
 
 .hero-button:hover {
@@ -123,4 +116,77 @@
     text-overflow: ellipsis; /* Add ellipsis for overflow text */
     word-wrap: break-word; /* Break long words to a new line */
     overflow-wrap: break-word; /* Ensure compatibility with different browsers */
+}
+
+@media (max-width: 600px) {
+    .home-container {
+        padding: 10px;
+        margin-top: 20px auto;
+    }
+
+    .home-container h1 {
+        font-size: 1em;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .home-container p {
+        font-size: 0.8em;
+        text-align: center;
+
+
+    }
+
+    .home-container h2 {
+        font-size: 0.8em;
+        margin-top: 12px;
+        margin-left: 20px;
+        text-align: center;
+
+    }
+
+    .hero-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .hero-box {
+        margin-left: 8px;
+        width: 40%;
+        height: 40%;
+        padding: 8px;
+        margin-top: 15px;
+        align-self: flex-start;
+    }
+
+    .hero-button {
+        font-size: 0.7em;
+        padding: 4px 8px;
+        margin: 0 auto;
+        text-align: center;
+
+    }
+
+    .carousel-container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .carousel-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .homegear-title h3, .homegear-price h4 {
+        font-size: 1em;
+    }
 }

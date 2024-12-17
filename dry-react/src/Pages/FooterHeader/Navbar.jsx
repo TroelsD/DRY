@@ -88,7 +88,7 @@ function ResponsiveAppBar() {
             navigate('/search-results', { state: { searchResults, searchQuery } });
         } catch (error) {
             console.error('Error fetching search results:', error);
-            navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
+            navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match' } });
         }
     };
 
@@ -233,7 +233,7 @@ function ResponsiveAppBar() {
                             </>
                         ) : (
                             <>
-                                <Tooltip title="Min Profil og Inbox">
+                                <Tooltip title="Min profil og inbox">
                                     <IconButton
                                         onClick={handleOpenUserMenu}
                                         sx={{
@@ -315,7 +315,7 @@ function ResponsiveAppBar() {
                 }}>
                     <TextField
                         variant="outlined"
-                        placeholder="Søg i alt udstyr..."
+                        placeholder="Søg efter artikler"
                         size="small"
                         value={searchQuery}
                         onChange={handleSearchChange}
