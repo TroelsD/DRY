@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import PostComments from "../../../Components/PostComments.jsx";
 import config from "../../../../config.jsx";
 import './ForumDetails.css';
@@ -12,7 +9,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 function ForumDetails() {
     const { id } = useParams();
     const [forumItem, setForumItem] = useState(null);
-    const [isLiked, setIsLiked] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
@@ -70,53 +66,13 @@ function ForumDetails() {
                     return acc;
                 }, {});
                 setUsers(userMap);
-
-                if (userId) {
-                    const checkUrl = new URL(`${config.apiBaseUrl}/api/ForumLikes/${userId}`);
-                    const checkResponse = await fetch(checkUrl, {
-                        method: 'GET',
-                        headers: { 'Content-Type': 'application/json' },
-                    });
-                    if (!checkResponse.ok) throw new Error('Network response was not ok');
-                    const likes = await checkResponse.json();
-                    const likeStatus = likes.some(like => like.forumId === data.items[0].id);
-                    setIsLiked(likeStatus);
-                }
             } catch (error) {
                 console.error('Error fetching forum item:', error);
             }
         };
 
         fetchForumItem();
-    }, [id, userId]);
-
-    const handleLikeClick = async () => {
-        if (!userId) {
-            alert('Login to like posts');
-            return;
-        }
-
-        if (userId === forumItem.userId) {
-            alert('You cannot like your own post');
-            return;
-        }
-
-        try {
-            const url = new URL(`${config.apiBaseUrl}/api/ForumLikes`);
-            url.searchParams.append('userId', userId);
-            url.searchParams.append('forumId', id);
-
-            const response = await fetch(url, {
-                method: isLiked ? 'DELETE' : 'POST',
-                headers: { 'Content-Type': 'application/json' },
-            });
-
-            if (!response.ok) throw new Error('Network response was not ok');
-            setIsLiked(!isLiked);
-        } catch (error) {
-            console.error('Error toggling like:', error);
-        }
-    };
+    }, [id]);
 
     const handleCommentPosted = async () => {
         try {
@@ -139,20 +95,12 @@ function ForumDetails() {
             <div className="more-info-container">
                 <p><strong>Indlæg af:</strong> {users[forumItem.userId]?.name || 'Ukendt'}</p>
                 <p><strong>Oprettet:</strong> {new Date(forumItem.createdAt).toLocaleDateString()}</p>
-                <p><ThumbUpIcon/>  {forumItem.likeCount}</p>
-            </div>
 
-            <button
-                className="like-button"
-                onClick={handleLikeClick}
-                title={isLiked ? 'Remove like' : 'Add like'}
-            >
-                <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
-            </button>
+            </div>
 
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
-                    {showComments ? 'Skjul kommentarer' : 'Kommenter'}
+                    {showComments ? 'Skjul kommentarer' : 'Kommentarer'}
                 </button>
                 {showComments && (
                     <>

@@ -13,11 +13,13 @@
     margin-top: 30px;
     position: relative;
     cursor: pointer;
+    opacity: 0.9;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .rehearsal-room-card:hover{
-    transform: scale(1.01); /* Increase size on hover */
+    transform: scale(1.01);
+    opacity: 1;
 
 }
 
